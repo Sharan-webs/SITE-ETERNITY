@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SITE•X</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#ffffff;--surface:#f5f5f3;--surface2:#eeede9;--surface3:#e5e4df;
+  --border:rgba(0,0,0,0.08);--border-act:rgba(0,0,0,0.2);
+  --text:#111110;--dim:rgba(17,17,16,0.4);--mid:rgba(17,17,16,0.65);
+  --accent:#1a1a18;--accent-d:rgba(26,26,24,0.06);
+  --gold:#8a6f3e;--gold-d:rgba(138,111,62,0.08);
+  --red:#c0392b;--green:#1e7e4a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* ── HOME ── */
+#page-home{min-height:100vh;display:flex;flex-direction:column;border-bottom:1px solid var(--border)}
+.home-nav{display:flex;align-items:center;justify-content:space-between;padding:28px 48px;border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;color:var(--text)}
+.nav-tag{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:2px}
+
+.home-hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 32px 40px;border-bottom:1px solid var(--border)}
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:6px;color:var(--dim);text-transform:uppercase;margin-bottom:28px;opacity:0;animation:fadeUp .7s .1s ease forwards}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(72px,13vw,148px);font-weight:300;line-height:.9;letter-spacing:-3px;color:var(--text);opacity:0;animation:fadeUp .7s .2s ease forwards}
+.hero-title em{font-style:italic;color:var(--gold)}
+.hero-rule{width:40px;height:1px;background:var(--border-act);margin:40px auto;opacity:0;animation:fadeUp .7s .35s ease forwards}
+
+.about-block{max-width:640px;margin:0 auto;padding:56px 32px 80px;text-align:center;opacity:0;animation:fadeUp .7s .4s ease forwards}
+.about-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:20px}
+.about-text{font-size:14px;line-height:2.1;color:var(--mid);font-weight:300}
+.about-contacts{margin-top:28px;display:flex;flex-direction:column;gap:8px}
+.contact-line{font-family:'Space Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:.5px}
+.contact-line b{color:var(--text);font-weight:600}
+.btn-explore{display:inline-flex;align-items:center;gap:12px;margin-top:44px;padding:15px 38px;border:1px solid var(--border-act);background:transparent;color:var(--text);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;cursor:pointer;transition:all .25s}
+.btn-explore:hover{background:var(--text);color:var(--bg)}
+.btn-explore svg{width:13px;height:13px;stroke:currentColor;fill:none;transition:transform .25s}
+.btn-explore:hover svg{transform:translateX(4px)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── MAIN ── */
+#page-main{display:none;min-height:100vh;flex-direction:column}
+#page-main.show{display:flex}
+
+.main-nav{display:flex;align-items:center;justify-content:space-between;padding:20px 40px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100}
+.main-logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:4px;color:var(--text);cursor:pointer}
+.nav-right{display:flex;align-items:center;gap:10px}
+.site-count{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:2px}
+.btn-admin{display:flex;align-items:center;gap:7px;padding:8px 16px;background:none;border:1px solid var(--border);color:var(--dim);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;cursor:pointer;transition:all .2s;text-transform:uppercase}
+.btn-admin:hover{border-color:var(--border-act);color:var(--text)}
+.btn-admin.on{border-color:var(--text);color:var(--text);background:var(--accent-d)}
+.btn-admin svg{width:13px;height:13px;stroke:currentColor;fill:none}
+
+.main-body{flex:1;padding:0;width:100%}
+.col-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:0;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--border);padding:32px 20px 20px}
+.col-title{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;line-height:1}
+.col-title em{font-style:italic;color:var(--gold)}
+.btn-add{display:none;align-items:center;gap:8px;padding:10px 22px;background:var(--text);border:none;color:var(--bg);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;cursor:pointer;font-weight:700;text-transform:uppercase;transition:all .2s}
+.btn-add:hover{opacity:.85}
+.btn-add svg{width:13px;height:13px;stroke:var(--bg);fill:none}
+
+/* FEED */
+.sites-grid{display:flex;flex-direction:column;width:100%}
+.site-card{width:100%;background:var(--bg);display:flex;flex-direction:column;cursor:pointer;position:relative;border-bottom:1px solid var(--border);transition:background .2s}
+.site-card:hover{background:var(--surface)}
+
+/* Image area */
+.card-img-area{width:100%;aspect-ratio:16/9;overflow:hidden;background:var(--surface2);position:relative;flex-shrink:0}
+.card-img-area img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.site-card:hover .card-img-area img{transform:scale(1.03)}
+.card-img-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--surface2)}
+.card-img-placeholder svg{width:28px;height:28px;stroke:var(--dim);fill:none}
+.card-img-placeholder span{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--dim);text-transform:uppercase}
+
+.card-inner{padding:22px 24px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card-num{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:2px}
+.card-name{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;color:var(--text);line-height:1.2}
+.card-desc{font-size:13px;color:var(--mid);line-height:1.7;font-weight:300;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card-foot{padding:14px 24px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0}
+.card-url{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
+.card-visit{display:flex;align-items:center;gap:5px;font-family:'Space Mono',monospace;font-size:9px;color:var(--gold);text-decoration:none;flex-shrink:0;transition:gap .2s;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.card-visit:hover{gap:8px}
+.card-visit svg{width:10px;height:10px;stroke:var(--gold);fill:none}
+
+/* Admin card actions */
+.card-acts{display:none;position:absolute;top:10px;right:10px;flex-direction:column;gap:4px}
+.admin-active .card-acts{display:flex}
+.act-btn{width:28px;height:28px;border:1px solid rgba(0,0,0,.12);background:rgba(255,255,255,.92);color:var(--mid);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;backdrop-filter:blur(4px)}
+.act-btn:hover{border-color:var(--border-act);color:var(--text)}
+.act-btn.del:hover{border-color:var(--red);color:var(--red)}
+.act-btn svg{width:12px;height:12px;stroke:currentColor;fill:none}
+
+/* EMPTY */
+.empty-state{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 20px;gap:14px;text-align:center;opacity:.35}
+.empty-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300}
+.empty-sub{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--dim)}
+
+/* LOADING */
+.loading-wrap{display:flex;align-items:center;justify-content:center;padding:100px;gap:8px}
+.ldot{width:5px;height:5px;border-radius:50%;background:var(--dim);animation:ld 1.2s ease-in-out infinite}
+.ldot:nth-child(2){animation-delay:.2s}.ldot:nth-child(3){animation-delay:.4s}
+@keyframes ld{0%,60%,100%{opacity:.2;transform:scale(.7)}30%{opacity:1;transform:scale(1)}}
+
+/* ── OVERLAYS ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.overlay.show{display:flex}
+
+/* Password */
+.pass-card{background:var(--bg);border:1px solid var(--border-act);width:100%;max-width:360px;padding:36px;display:flex;flex-direction:column;gap:20px}
+.card-heading{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--text)}
+.card-caption{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--dim);text-transform:uppercase}
+.inp{background:var(--surface);border:1px solid var(--border);padding:12px 14px;color:var(--text);font-family:'Space Mono',monospace;font-size:13px;letter-spacing:2px;outline:none;transition:border-color .2s;width:100%}
+.inp:focus{border-color:var(--border-act)}
+.inp::placeholder{color:var(--dim);letter-spacing:1px;font-size:11px}
+.inp-err{font-family:'Space Mono',monospace;font-size:10px;color:var(--red);letter-spacing:1px;min-height:13px}
+.btn-primary{padding:13px;background:var(--text);border:none;color:var(--bg);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;cursor:pointer;text-transform:uppercase;font-weight:700;width:100%;transition:opacity .2s}
+.btn-primary:hover{opacity:.8}
+.btn-secondary{padding:11px;background:none;border:1px solid var(--border);color:var(--dim);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;width:100%;transition:all .2s}
+.btn-secondary:hover{border-color:var(--border-act);color:var(--text)}
+
+/* Site modal */
+.site-modal{background:var(--bg);border:1px solid var(--border-act);width:100%;max-width:460px;overflow:hidden}
+.modal-top{padding:24px 28px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-heading{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--text)}
+.close-btn{width:30px;height:30px;background:none;border:1px solid var(--border);color:var(--dim);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.close-btn:hover{border-color:var(--border-act);color:var(--text)}
+.close-btn svg{width:13px;height:13px;stroke:currentColor;fill:none}
+.modal-fields{padding:24px 28px;display:flex;flex-direction:column;gap:16px}
+.field-wrap{display:flex;flex-direction:column;gap:7px}
+.field-lbl{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--dim);text-transform:uppercase}
+.field-inp{background:var(--surface);border:1px solid var(--border);padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;width:100%}
+.field-inp:focus{border-color:var(--border-act)}
+.field-inp::placeholder{color:var(--dim)}
+.field-ta{background:var(--surface);border:1px solid var(--border);padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;width:100%;resize:vertical;min-height:80px;line-height:1.65}
+.field-ta:focus{border-color:var(--border-act)}
+.field-ta::placeholder{color:var(--dim)}
+.field-err{font-size:11px;color:var(--red);font-family:'Space Mono',monospace;letter-spacing:.5px;min-height:13px}
+.field-hint{font-family:'Space Mono',monospace;font-size:9px;color:var(--dim);letter-spacing:1px;line-height:1.6}
+/* Image preview in modal */
+.img-preview{width:100%;aspect-ratio:16/9;background:var(--surface2);border:1px solid var(--border);overflow:hidden;display:flex;align-items:center;justify-content:center;margin-top:4px}
+.img-preview img{width:100%;height:100%;object-fit:cover;display:block}
+.img-preview-placeholder{display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.4}
+.img-preview-placeholder svg{width:24px;height:24px;stroke:var(--dim);fill:none}
+.img-preview-placeholder span{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--dim);text-transform:uppercase}
+.modal-bottom{padding:14px 28px 24px;display:flex;gap:10px;justify-content:flex-end}
+.btn-save{padding:11px 26px;background:var(--text);border:none;color:var(--bg);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;cursor:pointer;font-weight:700;text-transform:uppercase;transition:opacity .2s}
+.btn-save:hover{opacity:.8}
+.btn-save:disabled{opacity:.35;cursor:not-allowed}
+.btn-cncl{padding:11px 20px;background:none;border:1px solid var(--border);color:var(--dim);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;transition:all .2s}
+.btn-cncl:hover{border-color:var(--border-act);color:var(--text)}
+
+/* Confirm */
+.confirm-card{background:var(--bg);border:1px solid rgba(192,57,43,.25);width:100%;max-width:340px;padding:28px;display:flex;flex-direction:column;gap:16px}
+.confirm-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--text)}
+.confirm-text{font-size:13px;color:var(--mid);line-height:1.75;font-weight:300}
+.confirm-btns{display:flex;gap:8px}
+.btn-del{flex:1;padding:11px;background:var(--red);border:none;color:#fff;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;transition:opacity .2s}
+.btn-del:hover{opacity:.85}
+
+/* Detail view */
+.detail-overlay{position:fixed;inset:0;background:var(--bg);z-index:150;display:none;flex-direction:column}
+.detail-overlay.show{display:flex}
+.detail-nav{display:flex;align-items:center;justify-content:space-between;padding:18px 36px;border-bottom:1px solid var(--border);flex-shrink:0}
+.detail-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--text)}
+.detail-btns{display:flex;gap:10px;align-items:center}
+.btn-open{display:flex;align-items:center;gap:7px;padding:9px 20px;background:var(--text);border:none;color:var(--bg);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;cursor:pointer;font-weight:700;text-transform:uppercase;text-decoration:none;transition:opacity .2s}
+.btn-open:hover{opacity:.8}
+.detail-body{flex:1;overflow-y:auto;padding:48px 40px;max-width:860px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:28px}
+.detail-img{width:100%;border:1px solid var(--border);overflow:hidden}
+.detail-img img{width:100%;display:block}
+.detail-url{font-family:'Space Mono',monospace;font-size:11px;color:var(--gold);word-break:break-all;padding:14px 18px;border:1px solid var(--border);background:var(--surface)}
+.detail-desc{font-size:15px;line-height:2;color:var(--mid);font-weight:300}
+
+/* Toast */
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--text);color:var(--bg);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;padding:11px 22px;z-index:999;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Mobile */
+@media(max-width:640px){
+  .home-nav{padding:20px}
+  .main-nav{padding:14px 16px}
+  .main-body{padding:0}
+  .col-header{flex-direction:column;align-items:flex-start;padding:20px 16px 16px}
+
+  .modal-fields{padding:18px}
+  .modal-top{padding:18px 18px 14px}
+  .modal-bottom{padding:12px 18px 18px}
+  .detail-nav{padding:14px 16px}
+  .detail-body{padding:28px 16px}
+  .pass-card{padding:24px 18px}
+}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="page-home">
+  <nav class="home-nav">
+    <div class="nav-logo">SITE•X</div>
+    <div class="nav-tag">Curated Collection</div>
+  </nav>
+  <div class="home-hero">
+    <div class="hero-eyebrow">Digital Archive</div>
+    <div class="hero-title">SITE<em>•</em>X</div>
+    <div class="hero-rule"></div>
+  </div>
+  <div class="about-block">
+    <div class="about-label">Welcome to Our Website Collection</div>
+    <div class="about-text">This platform serves as a curated collection of useful and innovative websites, featuring both original creations developed by our team and carefully selected resources from other creators. Our goal is to provide visitors with easy access to valuable web experiences, tools, and digital projects in one convenient location.<br><br>We believe in respecting intellectual property, creator rights, and copyright regulations. Every website featured here is presented with consideration for ownership and proper attribution. If you wish to feature or use any content from this collection, please obtain permission beforehand.</div>
+    <div class="about-contacts">
+      <div class="contact-line">Permission &amp; Media Contact: <b>@mp4.ae_</b></div>
+      <div class="contact-line">Website Administration: <b>@sharan_in_</b></div>
+    </div>
+    <button class="btn-explore" onclick="goMain()">
+      Lets Explore
+      <svg viewBox="0 0 24 24" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="page-main">
+  <nav class="main-nav">
+    <div class="main-logo" onclick="goHome()">SITE•X</div>
+    <div class="nav-right">
+      <div class="site-count" id="site-count"></div>
+      <button class="btn-admin" id="btn-admin" onclick="adminClick()">
+        <svg viewBox="0 0 24 24" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        Admin
+      </button>
+    </div>
+  </nav>
+  <div class="main-body">
+    <div class="col-header">
+      <div class="col-title">The <em>Collection</em></div>
+      <button class="btn-add" id="btn-add" onclick="openAdd()">
+        <svg viewBox="0 0 24 24" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Site
+      </button>
+    </div>
+    <div id="sites-wrap">
+      <div class="loading-wrap"><div class="ldot"></div><div class="ldot"></div><div class="ldot"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PASSWORD -->
+<div class="overlay" id="pass-overlay">
+  <div class="pass-card">
+    <div>
+      <div class="card-heading">Admin Access</div>
+      <div class="card-caption" style="margin-top:6px">Enter password to continue</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <input class="inp" type="password" id="pass-inp" placeholder="Password" onkeydown="if(event.key==='Enter')checkPass()"/>
+      <div class="inp-err" id="pass-err"></div>
+    </div>
+    <button class="btn-primary" onclick="checkPass()">Unlock</button>
+    <button class="btn-secondary" onclick="closePass()">Cancel</button>
+  </div>
+</div>
+
+<!-- ADD / EDIT SITE -->
+<div class="overlay" id="site-overlay">
+  <div class="site-modal">
+    <div class="modal-top">
+      <div class="modal-heading" id="modal-heading">Add Site</div>
+      <button class="close-btn" onclick="closeSiteModal()"><svg viewBox="0 0 24 24" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-fields">
+      <!-- IMAGE NAME -->
+      <div class="field-wrap">
+        <div class="field-lbl">Image Filename</div>
+        <input class="field-inp" type="text" id="f-img" placeholder="e.g. img01.png" oninput="previewImg(this.value)"/>
+        <div class="field-hint">Upload image to GitHub repo first, then type the exact filename here.</div>
+        <div class="img-preview" id="img-preview">
+          <div class="img-preview-placeholder">
+            <svg viewBox="0 0 24 24" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Preview appears here</span>
+          </div>
+        </div>
+        <div class="field-err" id="err-img"></div>
+      </div>
+      <!-- NAME -->
+      <div class="field-wrap">
+        <div class="field-lbl">Site Name</div>
+        <input class="field-inp" type="text" id="f-name" placeholder="e.g. ETHICAL.NATION.AI~"/>
+        <div class="field-err" id="err-name"></div>
+      </div>
+      <!-- URL -->
+      <div class="field-wrap">
+        <div class="field-lbl">URL / Link</div>
+        <input class="field-inp" type="url" id="f-url" placeholder="https://example.com"/>
+        <div class="field-err" id="err-url"></div>
+      </div>
+      <!-- DETAILS -->
+      <div class="field-wrap">
+        <div class="field-lbl">Details</div>
+        <textarea class="field-ta" id="f-desc" placeholder="Describe this website..."></textarea>
+      </div>
+    </div>
+    <div class="modal-bottom">
+      <button class="btn-cncl" onclick="closeSiteModal()">Cancel</button>
+      <button class="btn-save" id="btn-save" onclick="saveSite()">Save & Publish</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE -->
+<div class="overlay" id="confirm-overlay">
+  <div class="confirm-card">
+    <div class="confirm-title">Delete Site?</div>
+    <div class="confirm-text">This will permanently remove the site from the collection and cannot be undone.</div>
+    <div class="confirm-btns">
+      <button class="btn-secondary" onclick="closeConfirm()" style="flex:1;padding:11px">Cancel</button>
+      <button class="btn-del" onclick="doDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- SITE DETAIL -->
+<div class="detail-overlay" id="detail-overlay">
+  <div class="detail-nav">
+    <div class="detail-name" id="dv-name"></div>
+    <div class="detail-btns">
+      <a class="btn-open" id="dv-link" href="#" target="_blank" rel="noopener">Visit Site <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></a>
+      <button class="close-btn" onclick="closeDetail()"><svg viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div class="detail-img" id="dv-img-wrap"><img id="dv-img" src="" alt=""/></div>
+    <div class="detail-url" id="dv-url"></div>
+    <div class="detail-desc" id="dv-desc"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const _fc = {
+  apiKey: "AIzaSyBUDIS1b4ijKT5ho2Vuiu7fWdWAvnZ5ehA",
+  authDomain: "myai-2c4b7.firebaseapp.com",
+  databaseURL: "https://myai-2c4b7-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "myai-2c4b7",
+  appId: "1:858318880695:web:9c109bdc7c607d1059f232"
+};
+
+const _app = initializeApp(_fc);
+const _db = getDatabase(_app);
+const PASS = "NAANTHAANADMIN21";
+
+// GitHub raw image base URL
+const GH_BASE = "https://raw.githubusercontent.com/sharan-webs/SITE-X-/main/";
+
+function imgUrl(filename) {
+  if (!filename) return null;
+  return GH_BASE + filename.trim();
+}
+
+let isAdmin = false;
+let sites = [];
+let editId = null;
+let delId = null;
+let _unsubSites = null;
+
+// ── NAV ──
+window.goMain = function() {
+  document.getElementById('page-home').style.display = 'none';
+  document.getElementById('page-main').classList.add('show');
+  loadSites();
+};
+window.goHome = function() {
+  document.getElementById('page-home').style.display = 'flex';
+  document.getElementById('page-main').classList.remove('show');
+};
+
+// ── LOAD ──
+function loadSites() {
+  if (_unsubSites) { _unsubSites(); _unsubSites = null; }
+  const r = ref(_db, 'sitex/sites');
+  _unsubSites = onValue(r, snap => {
+    sites = [];
+    if (snap.exists()) {
+      snap.forEach(c => sites.push({ id: c.key, ...c.val() }));
+    }
+    render();
+  });
+}
+
+function render() {
+  const wrap = document.getElementById('sites-wrap');
+  const cnt = document.getElementById('site-count');
+  cnt.textContent = sites.length + (sites.length === 1 ? ' site' : ' sites');
+
+  if (sites.length === 0) {
+    wrap.innerHTML = `<div class="sites-grid"><div class="empty-state"><div class="empty-title">No sites yet</div><div class="empty-sub">${isAdmin ? 'Add your first site' : 'Check back soon'}</div></div></div>`;
+    return;
+  }
+
+  const grid = document.createElement('div');
+  grid.className = 'sites-grid' + (isAdmin ? ' admin-active' : '');
+
+  sites.forEach((s, i) => {
+    const url = imgUrl(s.imageFile);
+    const imgHTML = url
+      ? `<img src="${esc(url)}" alt="${esc(s.name)}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'card-img-placeholder\\'><svg viewBox=\\'0 0 24 24\\' stroke-width=\\'1\\'><rect x=\\'3\\' y=\\'3\\' width=\\'18\\' height=\\'18\\' rx=\\'2\\'/><circle cx=\\'8.5\\' cy=\\'8.5\\' r=\\'1.5\\'/><polyline points=\\'21 15 16 10 5 21\\'/></svg><span>Image not found</span></div>'"/>`
+      : `<div class="card-img-placeholder"><svg viewBox="0 0 24 24" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>No image</span></div>`;
+
+    const card = document.createElement('div');
+    card.className = 'site-card';
+    card.innerHTML = `
+      <div class="card-img-area">${imgHTML}</div>
+      <div class="card-inner">
+        <div class="card-num">${String(i+1).padStart(2,'0')}</div>
+        <div class="card-name">${esc(s.name)}</div>
+        <div class="card-desc">${esc(s.description||'')}</div>
+      </div>
+      <div class="card-foot">
+        <div class="card-url">${esc(s.url)}</div>
+        <a class="card-visit" href="${esc(s.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+          Visit <svg viewBox="0 0 24 24" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </a>
+      </div>
+      <div class="card-acts">
+        <button class="act-btn" title="Edit" onclick="event.stopPropagation();openEdit('${s.id}')">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button class="act-btn del" title="Delete" onclick="event.stopPropagation();openConfirm('${s.id}')">
+          <svg viewBox="0 0 24 24" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+        </button>
+      </div>`;
+    card.onclick = () => openDetail(s);
+    grid.appendChild(card);
+  });
+
+  wrap.innerHTML = '';
+  wrap.appendChild(grid);
+}
+
+// ── IMAGE PREVIEW IN MODAL ──
+window.previewImg = function(filename) {
+  const preview = document.getElementById('img-preview');
+  if (!filename.trim()) {
+    preview.innerHTML = `<div class="img-preview-placeholder"><svg viewBox="0 0 24 24" stroke-width="1" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Preview appears here</span></div>`;
+    return;
+  }
+  const url = imgUrl(filename);
+  preview.innerHTML = `<img src="${esc(url)}" alt="preview" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.parentElement.innerHTML='<div class=\\'img-preview-placeholder\\'><svg viewBox=\\'0 0 24 24\\' stroke-width=\\'1\\' fill=\\'none\\' stroke=\\'currentColor\\'><rect x=\\'3\\' y=\\'3\\' width=\\'18\\' height=\\'18\\' rx=\\'2\\'/></svg><span>Image not found in repo</span></div>'"/>`;
+};
+
+// ── ADMIN ──
+window.adminClick = function() {
+  if (isAdmin) { deactivate(); return; }
+  document.getElementById('pass-overlay').classList.add('show');
+  setTimeout(() => document.getElementById('pass-inp').focus(), 80);
+};
+window.closePass = function() {
+  document.getElementById('pass-overlay').classList.remove('show');
+  document.getElementById('pass-inp').value = '';
+  document.getElementById('pass-err').textContent = '';
+};
+window.checkPass = function() {
+  const v = document.getElementById('pass-inp').value;
+  if (v === PASS) {
+    isAdmin = true;
+    const ab = document.getElementById('btn-admin');
+    ab.classList.add('on');
+    ab.innerHTML = `<svg viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg> Admin ON`;
+    document.getElementById('btn-add').style.display = 'flex';
+    closePass(); render(); toast('Admin mode on');
+  } else {
+    document.getElementById('pass-err').textContent = 'Wrong password';
+    document.getElementById('pass-inp').value = '';
+    setTimeout(() => { document.getElementById('pass-err').textContent = ''; }, 3000);
+  }
+};
+function deactivate() {
+  isAdmin = false;
+  const ab = document.getElementById('btn-admin');
+  ab.classList.remove('on');
+  ab.innerHTML = `<svg viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg> Admin`;
+  document.getElementById('btn-add').style.display = 'none';
+  render(); toast('Admin mode off');
+}
+
+// ── ADD / EDIT ──
+function resetModal() {
+  document.getElementById('f-img').value = '';
+  document.getElementById('f-name').value = '';
+  document.getElementById('f-url').value = '';
+  document.getElementById('f-desc').value = '';
+  document.getElementById('img-preview').innerHTML = `<div class="img-preview-placeholder"><svg viewBox="0 0 24 24" stroke-width="1" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Preview appears here</span></div>`;
+  ['err-img','err-name','err-url'].forEach(id => { document.getElementById(id).textContent = ''; });
+}
+window.openAdd = function() {
+  editId = null;
+  document.getElementById('modal-heading').textContent = 'Add Site';
+  resetModal();
+  document.getElementById('site-overlay').classList.add('show');
+  setTimeout(() => document.getElementById('f-img').focus(), 80);
+};
+window.openEdit = function(id) {
+  const s = sites.find(x => x.id === id); if (!s) return;
+  editId = id;
+  document.getElementById('modal-heading').textContent = 'Edit Site';
+  resetModal();
+  document.getElementById('f-img').value = s.imageFile || '';
+  document.getElementById('f-name').value = s.name || '';
+  document.getElementById('f-url').value = s.url || '';
+  document.getElementById('f-desc').value = s.description || '';
+  if (s.imageFile) window.previewImg(s.imageFile);
+  document.getElementById('site-overlay').classList.add('show');
+};
+window.closeSiteModal = function() {
+  document.getElementById('site-overlay').classList.remove('show');
+  editId = null;
+};
+
+window.saveSite = async function() {
+  const imageFile = document.getElementById('f-img').value.trim();
+  const name = document.getElementById('f-name').value.trim();
+  const url = document.getElementById('f-url').value.trim();
+  const desc = document.getElementById('f-desc').value.trim();
+  ['err-img','err-name','err-url'].forEach(id => { document.getElementById(id).textContent = ''; });
+  let ok = true;
+  if (!imageFile) { document.getElementById('err-img').textContent = 'Image filename required'; ok = false; }
+  if (!name) { document.getElementById('err-name').textContent = 'Name required'; ok = false; }
+  if (!url) { document.getElementById('err-url').textContent = 'URL required'; ok = false; }
+  if (!ok) return;
+
+  const btn = document.getElementById('btn-save');
+  btn.disabled = true; btn.textContent = 'Saving...';
+  try {
+    const data = { imageFile, name, url, description: desc, updatedAt: Date.now() };
+    if (editId) {
+      await update(ref(_db, 'sitex/sites/' + editId), data);
+      toast('Site updated');
+    } else {
+      data.createdAt = Date.now();
+      await push(ref(_db, 'sitex/sites'), data);
+      toast('Site published');
+    }
+    closeSiteModal();
+  } catch(e) {
+    console.error(e);
+    toast('Save failed: ' + (e.message || e.code));
+  } finally {
+    btn.disabled = false; btn.textContent = 'Save & Publish';
+  }
+};
+
+// ── DELETE ──
+window.openConfirm = function(id) { delId = id; document.getElementById('confirm-overlay').classList.add('show'); };
+window.closeConfirm = function() { delId = null; document.getElementById('confirm-overlay').classList.remove('show'); };
+window.doDelete = async function() {
+  if (!delId) return;
+  try { await remove(ref(_db, 'sitex/sites/' + delId)); toast('Deleted'); }
+  catch(e) { toast('Error: ' + e.message); }
+  closeConfirm();
+};
+
+// ── DETAIL ──
+window.openDetail = function(s) {
+  document.getElementById('dv-name').textContent = s.name;
+  document.getElementById('dv-url').textContent = s.url;
+  document.getElementById('dv-link').href = s.url;
+  document.getElementById('dv-desc').textContent = s.description || '';
+  const imgWrap = document.getElementById('dv-img-wrap');
+  const img = document.getElementById('dv-img');
+  const url = imgUrl(s.imageFile);
+  if (url) { img.src = url; imgWrap.style.display = 'block'; }
+  else imgWrap.style.display = 'none';
+  document.getElementById('detail-overlay').classList.add('show');
+};
+window.closeDetail = function() { document.getElementById('detail-overlay').classList.remove('show'); };
+
+// ── UTILS ──
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function toast(msg) {
+  const t = document.getElementById('toast'); t.textContent = msg;
+  t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
