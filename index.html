@@ -708,12 +708,79 @@
   ::-webkit-scrollbar-thumb { background: var(--border); }
   ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
+  /* ── IMAGE PREVIEW BOX ── */
+  .img-preview-box {
+    width: 100%;
+    height: 140px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-top: 10px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+
+  .img-preview-box.has-img { border-color: var(--accent); }
+
+  .img-preview-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+  }
+
+  .img-preview-box img.loaded { display: block; }
+
+  .img-preview-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+  }
+
+  .img-preview-placeholder svg {
+    width: 28px; height: 28px;
+    stroke: var(--muted); fill: none; stroke-width: 1.5;
+    opacity: 0.4;
+  }
+
+  .img-preview-placeholder span {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    opacity: 0.4;
+  }
+
+  .img-preview-box.has-img .img-preview-placeholder { display: none; }
+
   /* ── MOBILE ── */
   @media (max-width: 600px) {
-    .coll-header { padding: 16px 20px; }
-    .sites-grid { padding: 20px; gap: 14px; }
-    .modal { padding: 24px; }
+    .coll-header { padding: 14px 16px; gap: 10px; }
+    .coll-title { font-size: 22px; }
+    .coll-meta { font-size: 10px; }
+    .back-btn, .admin-btn { padding: 7px 11px; font-size: 10px; }
+    .sites-grid { padding: 16px; gap: 12px; grid-template-columns: 1fr 1fr; }
+    .site-card { height: 160px; }
+    .site-card-name { font-size: 16px; }
+    .site-card-detail { font-size: 11px; }
+    .modal { padding: 22px 18px; }
+    .modal-title { font-size: 20px; margin-bottom: 18px; }
     .home-about { font-size: 14px; }
+    .home-eyebrow { font-size: 10px; }
+    .field label { font-size: 9px; }
+    .field input, .field textarea { font-size: 14px; padding: 9px 12px; }
+    .btn-primary, .btn-danger { font-size: 14px; padding: 11px; }
+    .btn-secondary { font-size: 10px; padding: 11px 14px; }
+    .admin-banner { padding: 8px 16px; font-size: 10px; flex-wrap: wrap; gap: 8px; }
+    .upload-site-btn { font-size: 10px; padding: 6px 12px; }
+    .explore-btn { font-size: 16px; padding: 13px 30px; margin-top: 36px; }
+    .contact-chip { font-size: 10px; padding: 7px 14px; }
+    .home-contacts { gap: 12px; }
+    .img-preview-box { height: 120px; }
   }
 </style>
 </head>
@@ -831,8 +898,15 @@
     <input type="hidden" id="edit-site-id" />
     <div class="field">
       <label>Image Filename</label>
-      <input type="text" id="site-image" placeholder="e.g. img_03.png" />
+      <input type="text" id="site-image" placeholder="e.g. img_03.png" oninput="previewImage(this.value)" />
       <div class="hint">Upload image to GitHub repo first, then enter exact filename here.</div>
+      <div class="img-preview-box" id="img-preview-box">
+        <img id="img-preview-img" src="" alt="preview" />
+        <div class="img-preview-placeholder">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>PREVIEW</span>
+        </div>
+      </div>
     </div>
     <div class="field">
       <label>Site Name</label>
@@ -927,6 +1001,7 @@
       title.innerHTML = 'EDIT <span>SITE</span>';
       btn.textContent = 'SAVE';
       document.getElementById('site-image').value  = s.image || '';
+      previewImage(s.image || '');
       document.getElementById('site-name').value   = s.name || '';
       document.getElementById('site-link').value   = s.link || '';
       document.getElementById('site-detail').value = s.detail || '';
@@ -934,6 +1009,7 @@
       title.innerHTML = 'UPLOAD <span>SITE</span>';
       btn.textContent = 'UPLOAD';
       document.getElementById('site-image').value  = '';
+      previewImage('');
       document.getElementById('site-name').value   = '';
       document.getElementById('site-link').value   = '';
       document.getElementById('site-detail').value = '';
@@ -1082,6 +1158,26 @@
       grid.insertBefore(card, empty);
     });
   }
+
+  /* ── Image preview ── */
+  let previewTimer = null;
+  window.previewImage = (filename) => {
+    clearTimeout(previewTimer);
+    const box = document.getElementById('img-preview-box');
+    const img = document.getElementById('img-preview-img');
+    if (!filename.trim()) {
+      img.classList.remove('loaded');
+      img.src = '';
+      box.classList.remove('has-img');
+      return;
+    }
+    previewTimer = setTimeout(() => {
+      const url = GITHUB_RAW + encodeURIComponent(filename.trim());
+      img.onload = () => { img.classList.add('loaded'); box.classList.add('has-img'); };
+      img.onerror = () => { img.classList.remove('loaded'); box.classList.remove('has-img'); };
+      img.src = url;
+    }, 600);
+  };
 
   /* ── Firebase listener ── */
   onValue(sitesRef, (snapshot) => {
