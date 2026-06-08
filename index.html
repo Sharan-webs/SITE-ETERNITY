@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>SITE-ETERNITY</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -71,7 +71,7 @@
   }
 
   .home-eyebrow {
-    font-family: 'Space Mono', monospace;
+    font-family: 'Cormorant Garamond', serif;
     font-size: 11px;
     letter-spacing: 0.35em;
     color: var(--accent);
@@ -83,12 +83,13 @@
 
   .home-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(72px, 14vw, 160px);
-    letter-spacing: 0.04em;
-    line-height: 0.9;
+    font-size: clamp(42px, 9vw, 96px);
+    letter-spacing: 0.08em;
+    line-height: 1;
     color: var(--text);
     position: relative;
     opacity: 0;
+    white-space: nowrap;
     animation: fadeUp 0.9s 0.4s forwards;
   }
 
@@ -107,11 +108,12 @@
 
   .home-about {
     max-width: 640px;
-    font-size: 15px;
-    font-weight: 400;
+    font-size: 17px;
+    font-weight: 300;
+    font-family: 'Cormorant Garamond', serif;
     color: var(--muted);
-    line-height: 1.8;
-    letter-spacing: 0.02em;
+    line-height: 1.9;
+    letter-spacing: 0.03em;
     opacity: 0;
     animation: fadeUp 0.8s 0.8s forwards;
   }
@@ -119,6 +121,7 @@
   .home-about strong {
     color: var(--text);
     font-weight: 600;
+    font-style: italic;
   }
 
   .home-contacts {
@@ -242,7 +245,7 @@
 
   .coll-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
+    font-size: 22px;
     letter-spacing: 0.15em;
     color: var(--text);
   }
@@ -769,7 +772,8 @@
     .site-card-detail { font-size: 11px; }
     .modal { padding: 22px 18px; }
     .modal-title { font-size: 20px; margin-bottom: 18px; }
-    .home-about { font-size: 14px; }
+    .home-about { font-size: 15px; }
+    .home-title { white-space: normal; font-size: clamp(36px, 11vw, 60px); }
     .home-eyebrow { font-size: 10px; }
     .field label { font-size: 9px; }
     .field input, .field textarea { font-size: 14px; padding: 9px 12px; }
@@ -792,7 +796,7 @@
 <div id="slide-home">
   <div class="home-eyebrow">est. digital collection</div>
 
-  <h1 class="home-title">SITE<span>—</span>ETERNITY</h1>
+  <h1 class="home-title">SITE <span>ETERNITY</span></h1>
 
   <div class="home-divider"></div>
 
@@ -832,8 +836,7 @@
 
   <div class="coll-header">
     <div>
-      <div class="coll-title">SITE<span>—</span>ETERNITY</div>
-      <div class="coll-meta" id="site-count-label">WEBSITES — 0 / 30</div>
+      <div class="coll-title">SITE <span>ETERNITY</span></div>
     </div>
     <div class="header-right">
       <button class="back-btn" onclick="closeCollection()">
@@ -1110,12 +1113,10 @@
     sitesData = data || {};
     const grid = document.getElementById('sites-grid');
     const empty = document.getElementById('empty-state');
-    const countLabel = document.getElementById('site-count-label');
 
     // Sort by createdAt / order
     const sorted = Object.entries(sitesData).sort((a, b) => (a[1].order ?? a[1].createdAt) - (b[1].order ?? b[1].createdAt));
     const count = sorted.length;
-    countLabel.textContent = `WEBSITES — ${count} / ${MAX_SITES}`;
 
     // Clear existing cards (keep empty-state)
     Array.from(grid.querySelectorAll('.site-card')).forEach(el => el.remove());
